@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hexa QR Code Generator</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-image: linear-gradient(to top, #fcc5e4 0%, #fda34b 15%, #ff7882 35%, #c8699e 52%, #7046aa 71%, #0c1db8 87%, #020f75 100%);
+        }
+        h1 {
+            font-size: 5vh;
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .container {
+            width: 400px;
+            background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+            padding: 25px 35px;
+            border-radius: 10vh;
+            box-shadow: 10px 10px 10px rgba(255, 0, 157, 0.623);
+            text-align: center;
+        }
+        p {
+            font-size: 3vh;
+            margin-bottom: 3vh;
+        }
+        input {
+            width: 80%;
+            height: 50px;
+            padding: 10px;
+            border-radius: 10vh;
+            background-image: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);
+            border: 3px solid black;
+            outline: none;
+            box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.9);
+            margin-bottom: 3vh;
+        }
+        .btn, .reset-btn {
+            width: 60%;
+            height: 40px;
+            border-radius: 10vh;
+            color: white;
+            font-size: 2vh;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.9);
+            margin: 10px 0;
+        }
+        .btn {
+            background-image: linear-gradient(to top, #7028e4 0%, #e5b2ca 100%);
+        }
+        .reset-btn {
+            background-image: linear-gradient(to top, #ff4b1f 0%, #1fddff 100%);
+        }
+        #img-box {
+            width: 200px;
+            border-radius: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 5s;
+        }
+        #img-box img {
+            width: 100%;
+            padding: 10px;
+        }
+        #img-box.show-img {
+            max-height: 300px;
+            margin: 10px auto;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hexa QR Code Generator</h1>
+    <div class="container">
+        <p>Enter Your Text or URL</p>
+        <input type="text" placeholder="Enter Text or URL..." id="qr-text">
+        <div id="img-box">
+            <img src="" id="qr-img" alt="">
+        </div>
+        <button class="btn">Generate QR Code</button>
+        <button class="reset-btn">Reset</button>
+    </div>
+    <script>
+        const btnEle = document.querySelector(".btn");
+        const resetBtnEle = document.querySelector(".reset-btn");
+        const imgEle = document.getElementById("qr-img");
+        const boxEle = document.getElementById("img-box");
+        const inputEle = document.getElementById("qr-text");
+
+        // Function to generate QR code
+        btnEle.addEventListener("click", () => {
+            if (inputEle.value) {
+                imgEle.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${inputEle.value}`;
+                boxEle.classList.add("show-img");
+            } else {
+                alert("Please enter text or URL");
+            }
+        });
+
+        // Enter key functionality
+        inputEle.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                if (inputEle.value) {
+                    imgEle.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${inputEle.value}`;
+                    boxEle.classList.add("show-img");
+                } else {
+                    alert("Please enter text or URL");
+                }
+            }
+        });
+
+        // Reset functionality
+        resetBtnEle.addEventListener("click", () => {
+            inputEle.value = "";
+            imgEle.src = "";
+            boxEle.classList.remove("show-img");
+        });
+    </script>
+</body>
+</html>
